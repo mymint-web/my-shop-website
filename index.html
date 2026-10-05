@@ -1,4 +1,10 @@
+<!DOCTYPE html>
 <html style="margin:0;padding:0;">
+<head>
+<!-- แท็ก Viewport ทำให้หน้าเว็บปรับขนาดตามจอมือถืออัตโนมัติ -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta charset="UTF-8">
+<title>Bibimint</title>
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4/fonts/remixicon.css">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -13,9 +19,9 @@ s.textContent=`
 .chip{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:#fff;font-weight:600;font-size:12px;cursor:pointer;transition:all .18s;color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,0.03)}.chip.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 10px rgba(185,139,94,.3)}
 .qty-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:13px;color:var(--text);transition:all .2s}.qty-btn:hover{background:var(--accent-soft)}
 .overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(50,40,30,.5);backdrop-filter:blur(4px);z-index:50;display:none;transition:opacity 0.3s}.overlay.show{display:block}
-.mbox{position:absolute;left:50%;transform:translateX(-50%);width:min(620px,94%);background:#fff;border-radius:24px;box-shadow:0 25px 50px rgba(66,53,40,.15);z-index:51;display:none;max-height:75vh;overflow-y:auto;border:none}
+.mbox{position:absolute;left:50%;transform:translateX(-50%);width:min(620px,94%);background:#fff;border-radius:24px;box-shadow:0 25px 50px rgba(66,53,40,.15);z-index:51;display:none;max-height:85vh;overflow-y:auto;border:none}
 .mbox.show{display:block;animation:popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)} @keyframes popIn { from { opacity: 0; transform: translate(-50%, 20px) scale(0.95); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
-.toast{position:absolute;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:600;z-index:99;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;box-shadow:0 10px 20px rgba(0,0,0,0.1)}.toast.show{opacity:1;transform:translate(-50%, -10px)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:600;z-index:9999;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;box-shadow:0 10px 20px rgba(0,0,0,0.1);top:80px;}.toast.show{opacity:1;transform:translate(-50%, -10px)}
 .marquee{overflow:hidden;white-space:nowrap}.marquee-inner{display:inline-block;animation:mq 20s linear infinite;padding-left:100%}@keyframes mq{to{transform:translateX(-100%)}}
 .cloud{position:absolute;pointer-events:none;animation:drift 18s ease-in-out infinite alternate;opacity:.5}@keyframes drift{from{transform:translateX(-24px)}to{transform:translateX(28px)}}
 .swatch{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;display:inline-block;transition:transform 0.2s}.swatch:hover{transform:scale(1.1)}.swatch.active{border-color:var(--text)}
@@ -46,10 +52,19 @@ s.textContent=`
 .rank{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;align-items:center;justify-content:center;font-size:11px;margin-right:8px}
 .del-img-btn{position:absolute;top:10px;right:4px;display:none;background:rgba(255,255,255,0.9);border:none;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer;color:#c0392b;font-weight:600;box-shadow:0 2px 5px rgba(0,0,0,0.1);transition:all 0.2s;}
 .del-img-btn:hover{background:#fdf0f0;transform:translateY(-1px);}
+
+/* สำหรับจอมือถือโดยเฉพาะให้การจัดวาง Responsive */
+@media (max-width: 480px) {
+    #gridEl { grid-template-columns: repeat(2, 1fr) !important; gap: 10px !important; }
+    .btn-sm { font-size: 10px; padding: 5px 8px; }
+    #heroName { font-size: 22px !important; }
+    #bannerEl { height: 130px !important; padding: 0 16px !important;}
+}
 `;document.head.appendChild(s);
 })();
 </script>
-<div style="position:relative;background:var(--bg);">
+</head>
+<body style="position:relative;background:var(--bg);">
 <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;">
 <svg class="cloud" style="top:5%;left:4%;width:90px;animation-duration:20s;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
 <svg class="cloud" style="top:20%;right:5%;width:64px;animation-duration:24s;animation-delay:-3s;opacity:.35;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
@@ -58,7 +73,7 @@ s.textContent=`
 <svg class="cloud" style="top:82%;left:6%;width:70px;animation-duration:26s;animation-delay:-12s;opacity:.35;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
 </div>
 
-<div id="splash" style="position:absolute;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding-top:120px;transition:opacity .35s;">
+<div id="splash" style="position:fixed;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding-top:30vh;transition:opacity .35s;">
 <div style="font-size:15px;font-weight:600;margin-bottom:10px;" id="splashTitle">กำลังซิงค์ข้อมูลร้านค้า...</div>
 <div id="splashPercent" style="font-size:30px;font-weight:700;color:var(--accent);">0%</div>
 <div style="width:160px;height:6px;background:var(--accent-soft);border-radius:999px;overflow:hidden;margin-top:12px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.05);"><div id="splashBar" style="height:100%;background:linear-gradient(90deg, var(--accent2), var(--accent));width:0%;transition:width .15s;"></div></div>
@@ -71,7 +86,7 @@ s.textContent=`
 <div id="avatarEl" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg, var(--accent2), var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;flex-shrink:0;overflow:hidden;border:2px solid #fff;box-shadow:0 4px 10px rgba(185,139,94,.2);">B</div>
 <div><div id="storeNameEl" style="font-weight:700;font-size:16px;">Bibimint</div><div id="taglineEl" style="font-size:11px;color:var(--muted);">ร้านค้าออนไลน์</div></div>
 </div>
-<div style="display:flex;gap:6px;flex-wrap:wrap;">
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;">
 <button id="infoBtn" class="btn-ghost btn-sm"><i class="ri-error-warning-line" style="color:var(--accent);"></i> รายละเอียด</button>
 <button id="contactBtn" class="btn-ghost btn-sm"><i class="ri-chat-3-line"></i> ติดต่อ</button>
 <button id="cartBtn" class="btn-primary btn-sm" style="background:var(--accent-soft);color:var(--text);border:1px solid var(--accent);box-shadow:none;"><i class="ri-shopping-cart-2-line"></i> <span id="cartCount" style="background:linear-gradient(135deg, var(--accent2), var(--accent));color:#fff;border-radius:50%;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;box-shadow:0 2px 4px rgba(185,139,94,.4);">0</span></button>
@@ -103,7 +118,7 @@ s.textContent=`
 <div id="emptyEl" style="display:none;text-align:center;padding:40px;color:var(--muted);"><i class="ri-shopping-bag-3-line" style="font-size:42px;display:block;margin-bottom:10px;opacity:0.5;"></i>ไม่พบสินค้า</div>
 </main>
 
-<div id="orderBar" style="display:none;position:sticky;bottom:0;z-index:25;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:10px 16px;box-shadow:0 -10px 30px rgba(0,0,0,0.03);">
+<div id="orderBar" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:25;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:10px 16px;box-shadow:0 -10px 30px rgba(0,0,0,0.03);">
 <div style="max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
 <div><div style="font-size:11px;color:var(--muted);">รวมทั้งหมด</div><div id="barTotal" style="font-size:19px;font-weight:700;color:var(--accent);">฿0</div></div>
 <div style="display:flex;gap:8px;flex-wrap:wrap;">
@@ -188,7 +203,7 @@ s.textContent=`
 <div class="overlay" id="adminOverlay"></div>
 <div class="mbox" id="adminBox" style="padding:20px;width:min(720px,95%);">
 <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
-<h3 style="margin:0;font-size:17px;"><i class="ri-settings-3-line" style="color:var(--accent);"></i> ระบบหลังบ้าน <span id="syncStatus" style="font-size:10px;color:var(--muted);margin-left:8px;"><i class="ri-cloud-line"></i> ซิงค์แล้ว</span></h3>
+<h3 style="margin:0;font-size:17px;"><i class="ri-settings-3-line" style="color:var(--accent);"></i> ระบบหลังบ้าน <span id="syncStatus" style="font-size:10px;color:var(--muted);margin-left:8px;"><i class="ri-cloud-line"></i> เชื่อมต่อแล้ว</span></h3>
 <div style="display:flex;gap:8px;">
 <button id="forgetPwd" class="btn-ghost btn-sm"><i class="ri-erase-line"></i> ล้างรหัส</button>
 <button id="adminLogout" class="btn-ghost btn-sm"><i class="ri-logout-circle-r-line"></i> ออก</button>
@@ -246,12 +261,12 @@ s.textContent=`
 <div id="tabSettings" style="display:none;">
 <div class="sec-title"><i class="ri-store-2-line"></i> ข้อมูลร้าน</div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-<div><label class="lbl">ชื่อร้าน</label><input id="fName" class="inp"></div>
-<div><label class="lbl">สโลแกน</label><input id="fTag" class="inp"></div>
+<div style="grid-column:1/-1;"><label class="lbl">ชื่อร้าน</label><input id="fName" class="inp"></div>
+<div style="grid-column:1/-1;"><label class="lbl">สโลแกน</label><input id="fTag" class="inp"></div>
 <div style="grid-column:1/-1;"><label class="lbl">ข้อความโปรโมท</label><input id="fPromo" class="inp"></div>
 <div style="grid-column:1/-1;"><label class="lbl">ข้อความแถบเลื่อน</label><input id="fMarquee" class="inp"></div>
-<div><label class="lbl">รูปโปรไฟล์</label><input type="file" id="fAvatarFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fAvatarPrev" class="img-preview"><button type="button" id="clrAvatarBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
-<div><label class="lbl">รูปแบนเนอร์</label><input type="file" id="fBannerFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fBannerPrev" class="img-preview"><button type="button" id="clrBannerBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div style="grid-column:1/-1;"><label class="lbl">รูปโปรไฟล์ (ขนาดไฟล์ไม่เกิน 2MB)</label><input type="file" id="fAvatarFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fAvatarPrev" class="img-preview"><button type="button" id="clrAvatarBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div style="grid-column:1/-1;"><label class="lbl">รูปแบนเนอร์ (ขนาดไฟล์ไม่เกิน 2MB)</label><input type="file" id="fBannerFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fBannerPrev" class="img-preview"><button type="button" id="clrBannerBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
 </div>
 <button id="saveStore" class="btn-primary" style="margin-top:14px;width:100%;"><i class="ri-save-3-line"></i> บันทึกข้อมูลร้าน</button>
 
@@ -263,8 +278,8 @@ s.textContent=`
 <div id="adminProductList" style="max-height:160px;overflow-y:auto;margin-bottom:14px;border:1px solid var(--border);border-radius:14px;padding:4px 0;background:#fff;"></div>
 <h4 id="prodFormTitle" style="margin:0 0 10px;font-size:13px;color:var(--accent);font-weight:700;">เพิ่มสินค้าใหม่</h4>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
-<div><label class="lbl">ชื่อสินค้า</label><input id="pName" class="inp"></div>
-<div><label class="lbl">หมวดหมู่</label><select id="pCatSel" class="inp"></select></div>
+<div style="grid-column:1/-1;"><label class="lbl">ชื่อสินค้า</label><input id="pName" class="inp"></div>
+<div style="grid-column:1/-1;"><label class="lbl">หมวดหมู่</label><select id="pCatSel" class="inp"></select></div>
 <div><label class="lbl">ราคาโปร</label><input id="pPrice" type="number" class="inp" placeholder="บาท"></div>
 <div><label class="lbl">ราคาเต็ม</label><input id="pOld" type="number" class="inp" placeholder="ถ้ามี"></div>
 <div><label class="lbl">ป้ายกำกับ</label><input id="pBadge" class="inp" placeholder="แนะนำ/ใหม่"></div>
@@ -272,8 +287,8 @@ s.textContent=`
 <div style="display:flex;align-items:center;gap:8px;"><button type="button" id="qtyMinus" class="qty-btn"><i class="ri-subtract-line"></i></button><input id="pStock" type="number" class="inp" value="1" min="1" style="text-align:center;padding:10px;"><button type="button" id="qtyPlus" class="qty-btn"><i class="ri-add-line"></i></button></div></div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
-<div><label class="lbl">รูปที่ 1</label><input type="file" id="pImgFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImgPrev" class="img-preview"><button type="button" id="clrImgBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
-<div><label class="lbl">รูปที่ 2</label><input type="file" id="pImg2File" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImg2Prev" class="img-preview"><button type="button" id="clrImg2Btn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div style="grid-column:1/-1;"><label class="lbl">รูปที่ 1 (ขนาดไฟล์ไม่เกิน 2MB)</label><input type="file" id="pImgFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImgPrev" class="img-preview"><button type="button" id="clrImgBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div style="grid-column:1/-1;"><label class="lbl">รูปที่ 2 (ขนาดไฟล์ไม่เกิน 2MB)</label><input type="file" id="pImg2File" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImg2Prev" class="img-preview"><button type="button" id="clrImg2Btn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
 </div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
 <div style="grid-column:1/-1;"><label class="lbl">ลิงก์ตัวอย่าง (ไดร์ฟ)</label><input id="pDrive" class="inp" placeholder="URL"></div>
@@ -325,7 +340,6 @@ var set,prod,cats,cart=[],stats={},fin=[],activeCat='ทั้งหมด',sear
 
 function $(id){return document.getElementById(id);}
 
-// โหลดข้อมูลแบบ Offline First (โหลดเครื่องก่อน ถ้ามีเน็ตค่อยดึงจากคลาวด์)
 function loadLocal(){
     try{set=JSON.parse(localStorage.getItem(LS.S))||DSET;}catch(e){set=DSET;}
     try{prod=JSON.parse(localStorage.getItem(LS.P))||DPROD;}catch(e){prod=DPROD;}
@@ -334,24 +348,46 @@ function loadLocal(){
     try{fin=JSON.parse(localStorage.getItem(LS.F))||[];}catch(e){fin=[];}
 }
 
-async function loadAPI(){
+// โหลดข้อมูลแบบ Bypass Cache โดยเพิ่ม Date.now()
+async function loadAPI(silent = false){
     try{
-        const res = await fetch(API_URL+"?action=load");
+        const res = await fetch(API_URL+"?action=load&t="+Date.now());
         const json = await res.json();
         if(json.status === 'success' && Object.keys(json.data).length > 0) {
+            var oldData = JSON.stringify({s:set, p:prod, c:cats}); // เช็คว่าข้อมูลเปลี่ยนไหม
             set = json.data.set || set;
             prod = json.data.prod || prod;
             cats = json.data.cats || cats;
             stats = json.data.stats || stats;
             fin = json.data.fin || fin;
-            saveLocal(); // อัปเดตเครื่องให้ตรงคลาวด์
-            return true;
+            saveLocal();
+            
+            var newData = JSON.stringify({s:set, p:prod, c:cats});
+            return oldData !== newData; // คืนค่า true ถ้าข้อมูลมีการเปลี่ยนแปลง
         }
-    } catch(e) { console.error("API Load Error", e); }
+    } catch(e) { if(!silent) console.error("API Load Error", e); }
     return false;
 }
 
-// เซฟลงเครื่องทันที และซิงค์ขึ้น Google Sheets
+// อัปเดตข้อมูลเบื้องหลังทุกๆ 15 วินาที เพื่อให้ Real-time ข้ามเครื่อง
+setInterval(function(){
+    // ไม่กวนถ้าแอดมินกำลังพิมพ์ข้อมูลหรือแก้ไขอยู่
+    if(!editingId && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        loadAPI(true).then(function(changed){
+            if(changed) render();
+        });
+    }
+}, 15000);
+
+// อัปเดตข้อมูลทันทีที่ผู้ใช้กดสลับหน้าจอหรือเข้าเว็บกลับมา
+window.addEventListener('focus', function(){
+    if(!editingId && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        loadAPI(true).then(function(changed){
+            if(changed) render();
+        });
+    }
+});
+
 function saveLocal(){
     try{localStorage.setItem(LS.S,JSON.stringify(set));localStorage.setItem(LS.P,JSON.stringify(prod));localStorage.setItem(LS.C,JSON.stringify(cats));localStorage.setItem(LS.ST,JSON.stringify(stats));localStorage.setItem(LS.F,JSON.stringify(fin));}catch(e){}
 }
@@ -363,22 +399,21 @@ function save(){
     fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-        body: JSON.stringify({ action: 'save', data: { set:set, prod:prod, cats:cats, stats:stats, fin:fin } }),
-        redirect: 'follow'
+        body: JSON.stringify({ action: 'save', data: { set:set, prod:prod, cats:cats, stats:stats, fin:fin } })
     }).then(r => r.json()).then(res => {
-        if(s){ s.innerHTML = '<i class="ri-cloud-line"></i> ซิงค์แล้ว'; s.style.color = 'var(--muted)'; }
+        if(s){ s.innerHTML = '<i class="ri-cloud-line"></i> ซิงค์สำเร็จ'; s.style.color = 'var(--muted)'; }
     }).catch(e => {
-        if(s){ s.innerHTML = '<i class="ri-error-warning-line"></i> รอซิงค์ใหม่'; s.style.color = '#c0392b'; }
+        if(s){ s.innerHTML = '<i class="ri-error-warning-line"></i> ภาพอาจใหญ่ไป ลองอัปโหลดใหม่'; s.style.color = '#c0392b'; }
+        console.error("Save Error", e);
     });
 }
 
-function toast(m){var t=$('toast');t.textContent=m;t.style.top=(window.scrollY+60)+'px';t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2500);}
+function toast(m){var t=$('toast');t.textContent=m;t.style.top='16px';t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2500);}
 function applyTheme(){var r=document.documentElement.style;r.setProperty('--accent',set.accent);r.setProperty('--accent2',set.accent2);r.setProperty('--bg',set.bg);r.setProperty('--text',set.text);}
 function openBox(id){$(id).classList.add('show');$(id.replace('Box','Overlay')).classList.add('show');$(id).style.top=(window.scrollY+16)+'px';}
 function closeBox(id){$(id).classList.remove('show');$(id.replace('Box','Overlay')).classList.remove('show');}
 function readFile(f,cb){
-    // คำเตือนขนาดไฟล์
-    if(f.size > 200000) { toast("ขนาดรูปใหญ่เกินไป อาจทำให้ Google Sheets บันทึกไม่ผ่าน"); }
+    if(f.size > 2000000) { toast("ขนาดรูปใหญ่กว่า 2MB อาจซิงค์ไม่ผ่าน"); return; }
     var r=new FileReader();r.onload=function(){cb(r.result);};r.readAsDataURL(f);
 }
 function allCats(){return ['ทั้งหมด'].concat(cats.filter(c=>c!=='ทั้งหมด'));}
@@ -608,21 +643,21 @@ var iv = setInterval(function(){
     var sb=$('splashBar');if(sb)sb.style.width=p+'%';
 }, 90);
 
-loadLocal(); // โหลดจากเครื่องก่อน
-render(); // วาดหน้าเว็บรอเลย
+loadLocal(); 
+render(); 
 
-loadAPI().then(function(success){ // ดึงจาก Google Sheets
-    clearInterval(iv); // หยุดหลอดโหลด
+loadAPI().then(function(changed){
+    clearInterval(iv);
     $('splashPercent').textContent = '100%';
     $('splashBar').style.width = '100%';
     setTimeout(function(){
         $('splash').style.opacity = '0';
         setTimeout(function(){$('splash').style.display = 'none';},350);
         $('mainWrap').style.opacity = '1';
-        if(success) render(); // อัปเดตหน้าเว็บใหม่ถ้าได้ข้อมูลจากคลาวด์
+        if(changed) render();
     }, 400);
 });
 })();
 </script>
-</div>
+</body>
 </html>
