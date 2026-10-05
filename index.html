@@ -1,0 +1,628 @@
+<html style="margin:0;padding:0;">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4/fonts/remixicon.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+(function(){
+var s=document.createElement('style');
+s.textContent=`
+:root{--accent:#b98b5e;--accent2:#d4a76a;--bg:#fbf9f6;--text:#423528;--muted:#867666;--border:#eaddce;--accent-soft:#f6eee3;--accent2-soft:#f9f2e6}
+*{box-sizing:border-box}body{margin:0;font-family:'Quicksand','Noto Sans Thai',sans-serif;background:var(--bg);color:var(--text)}
+.reveal{opacity:0;transform:translateY(14px);animation:fu .5s ease forwards}.reveal:nth-child(2){animation-delay:.08s}@keyframes fu{to{opacity:1;transform:translateY(0)}}
+.card-hover{transition:transform .25s ease,box-shadow .25s ease;cursor:pointer}.card-hover:hover{transform:translateY(-6px);box-shadow:0 18px 35px rgba(185,139,94,.12)}
+.chip{padding:7px 14px;border-radius:999px;border:1px solid var(--border);background:#fff;font-weight:600;font-size:12px;cursor:pointer;transition:all .18s;color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,0.03)}.chip.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 10px rgba(185,139,94,.3)}
+.qty-btn{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);background:#fff;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;padding:0;font-size:13px;color:var(--text);transition:all .2s}.qty-btn:hover{background:var(--accent-soft)}
+.overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(50,40,30,.5);backdrop-filter:blur(4px);z-index:50;display:none;transition:opacity 0.3s}.overlay.show{display:block}
+.mbox{position:absolute;left:50%;transform:translateX(-50%);width:min(620px,94%);background:#fff;border-radius:24px;box-shadow:0 25px 50px rgba(66,53,40,.15);z-index:51;display:none;max-height:75vh;overflow-y:auto;border:none}
+.mbox.show{display:block;animation:popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)} @keyframes popIn { from { opacity: 0; transform: translate(-50%, 20px) scale(0.95); } to { opacity: 1; transform: translate(-50%, 0) scale(1); } }
+.toast{position:absolute;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:600;z-index:99;opacity:0;transition:opacity .25s, transform .25s;pointer-events:none;box-shadow:0 10px 20px rgba(0,0,0,0.1)}.toast.show{opacity:1;transform:translate(-50%, -10px)}
+.marquee{overflow:hidden;white-space:nowrap}.marquee-inner{display:inline-block;animation:mq 20s linear infinite;padding-left:100%}@keyframes mq{to{transform:translateX(-100%)}}
+.cloud{position:absolute;pointer-events:none;animation:drift 18s ease-in-out infinite alternate;opacity:.5}@keyframes drift{from{transform:translateX(-24px)}to{transform:translateX(28px)}}
+.swatch{width:30px;height:30px;border-radius:50%;cursor:pointer;border:3px solid transparent;display:inline-block;transition:transform 0.2s}.swatch:hover{transform:scale(1.1)}.swatch.active{border-color:var(--text)}
+.tab-btn{padding:6px 11px;border-radius:999px;font-weight:600;cursor:pointer;color:var(--muted);border:1px solid var(--border);background:#fff;font-size:12px;display:inline-flex;align-items:center;gap:5px;transition:all 0.2s}.tab-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);box-shadow:0 4px 10px rgba(185,139,94,.2)}
+.inp{width:100%;padding:10px 14px;border:1px solid var(--border);border-radius:14px;font-size:13px;font-family:inherit;background:#fff;color:var(--text);transition:all 0.2s}.inp:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}.inp.err{border-color:#c0392b;background:#fdf0f0}
+.lbl{font-size:11px;color:var(--muted);font-weight:600;display:block;margin-bottom:6px}
+.btn-primary{background:linear-gradient(135deg, var(--accent2), var(--accent));color:#fff;border:none;padding:10px 18px;border-radius:16px;font-weight:700;cursor:pointer;font-family:inherit;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;box-shadow:0 6px 15px rgba(185,139,94,.25);transition:all 0.2s}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(185,139,94,.35)}
+.btn-ghost{background:#fff;border:1px solid var(--border);color:var(--text);padding:9px 14px;border-radius:16px;font-weight:600;cursor:pointer;font-family:inherit;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;transition:all 0.2s}
+.btn-ghost:hover{background:var(--bg);border-color:var(--accent2)}
+.btn-sm{padding:6px 10px;font-size:11px;border-radius:12px;box-shadow:none}
+.badge-l{position:absolute;top:10px;left:10px;background:var(--accent2);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.badge-r{position:absolute;top:10px;right:10px;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;z-index:2;box-shadow:0 2px 6px rgba(0,0,0,0.1)}
+.old-price{text-decoration:line-through;color:var(--muted);font-size:11px}
+.color-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}.color-row input[type=color]{width:34px;height:28px;border:1px solid var(--border);border-radius:8px;padding:2px;cursor:pointer}.color-row input[type=text]{width:76px;font-family:monospace;font-size:12px}
+.notice-box{background:var(--accent-soft);border:1px dashed var(--accent);border-radius:14px;padding:10px 12px;font-size:12px;display:flex;gap:8px;margin-bottom:12px;transition:all 0.3s;}
+.cat-row{display:grid;grid-template-columns:1fr auto;gap:8px;margin-bottom:6px;align-items:center}
+.img-preview{width:100%;max-height:110px;object-fit:cover;border-radius:12px;border:1px solid var(--border);margin-top:6px;display:none}.img-preview.show{display:block}
+.channel-row{display:grid;grid-template-columns:90px 1fr auto;gap:8px;margin-bottom:8px;align-items:center}
+.sec-title{font-size:14px;font-weight:700;color:var(--accent);margin:18px 0 10px;padding-bottom:6px;border-bottom:2px solid var(--accent-soft);display:flex;align-items:center;gap:6px}
+.toggle{position:relative;width:40px;height:22px;border-radius:999px;background:#e2e2e2;cursor:pointer;transition:background .3s;flex-shrink:0;box-shadow:inset 0 1px 3px rgba(0,0,0,0.1)}.toggle.on{background:var(--accent)}.toggle::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:left .3s;box-shadow:0 1px 3px rgba(0,0,0,0.2)}.toggle.on::after{left:20px}
+.topic-item{border:1px solid var(--border);border-radius:14px;margin-bottom:8px;overflow:hidden;transition:all 0.2s}
+.topic-head{padding:10px 14px;cursor:pointer;font-weight:600;font-size:13px;display:flex;justify-content:space-between;align-items:center;background:var(--bg)}
+.topic-body{padding:12px 14px;font-size:12px;line-height:1.7;display:none;white-space:pre-line;border-top:1px dashed var(--border)}
+.topic-item.open{box-shadow:0 4px 12px rgba(0,0,0,0.03)}.topic-item.open .topic-body{display:block}.topic-item.open .topic-head i{transform:rotate(180deg)}.topic-head i{transition:transform .2s}
+.thumb{width:52px;height:52px;border-radius:12px;object-fit:cover;border:2px solid var(--border);cursor:pointer;transition:all 0.2s}.thumb:hover{transform:scale(1.05)}.thumb.active{border-color:var(--accent)}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px dashed var(--border);font-size:13px}
+.rank{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700;align-items:center;justify-content:center;font-size:11px;margin-right:8px}
+.del-img-btn{position:absolute;top:10px;right:4px;display:none;background:rgba(255,255,255,0.9);border:none;border-radius:8px;padding:4px 8px;font-size:11px;cursor:pointer;color:#c0392b;font-weight:600;box-shadow:0 2px 5px rgba(0,0,0,0.1);transition:all 0.2s;}
+.del-img-btn:hover{background:#fdf0f0;transform:translateY(-1px);}
+`;document.head.appendChild(s);
+})();
+</script>
+<div style="position:relative;background:var(--bg);">
+<div style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:0;">
+<svg class="cloud" style="top:5%;left:4%;width:90px;animation-duration:20s;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
+<svg class="cloud" style="top:20%;right:5%;width:64px;animation-duration:24s;animation-delay:-3s;opacity:.35;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
+<svg class="cloud" style="top:42%;left:2%;width:100px;animation-duration:28s;animation-delay:-6s;opacity:.3;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
+<svg class="cloud" style="top:62%;right:3%;width:80px;animation-duration:22s;animation-delay:-9s;opacity:.4;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
+<svg class="cloud" style="top:82%;left:6%;width:70px;animation-duration:26s;animation-delay:-12s;opacity:.35;" viewBox="0 0 100 60" fill="#fff"><ellipse cx="30" cy="40" rx="22" ry="14"/><ellipse cx="55" cy="32" rx="26" ry="18"/><ellipse cx="75" cy="42" rx="18" ry="12"/><rect x="20" y="38" width="65" height="16" rx="8"/></svg>
+</div>
+
+<div id="splash" style="position:absolute;inset:0;z-index:100;background:var(--bg);display:flex;flex-direction:column;align-items:center;padding-top:120px;transition:opacity .35s;">
+<div style="font-size:15px;font-weight:600;margin-bottom:10px;" id="splashTitle">กำลังซิงค์ข้อมูลร้านค้า...</div>
+<div id="splashPercent" style="font-size:30px;font-weight:700;color:var(--accent);">0%</div>
+<div style="width:160px;height:6px;background:var(--accent-soft);border-radius:999px;overflow:hidden;margin-top:12px;box-shadow:inset 0 1px 3px rgba(0,0,0,0.05);"><div id="splashBar" style="height:100%;background:linear-gradient(90deg, var(--accent2), var(--accent));width:0%;transition:width .15s;"></div></div>
+</div>
+
+<div id="mainWrap" style="position:relative;z-index:1;opacity:0;transition:opacity .4s;">
+<header class="reveal" style="position:sticky;top:0;z-index:30;background:rgba(251,249,246,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 4px 20px rgba(0,0,0,0.02);">
+<div style="max-width:780px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+<div id="brandZone" style="display:flex;align-items:center;gap:12px;cursor:pointer;user-select:none;">
+<div id="avatarEl" style="width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg, var(--accent2), var(--accent));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:20px;flex-shrink:0;overflow:hidden;border:2px solid #fff;box-shadow:0 4px 10px rgba(185,139,94,.2);">B</div>
+<div><div id="storeNameEl" style="font-weight:700;font-size:16px;">Bibimint</div><div id="taglineEl" style="font-size:11px;color:var(--muted);">ร้านค้าออนไลน์</div></div>
+</div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;">
+<button id="infoBtn" class="btn-ghost btn-sm"><i class="ri-error-warning-line" style="color:var(--accent);"></i> รายละเอียด</button>
+<button id="contactBtn" class="btn-ghost btn-sm"><i class="ri-chat-3-line"></i> ติดต่อ</button>
+<button id="cartBtn" class="btn-primary btn-sm" style="background:var(--accent-soft);color:var(--text);border:1px solid var(--accent);box-shadow:none;"><i class="ri-shopping-cart-2-line"></i> <span id="cartCount" style="background:linear-gradient(135deg, var(--accent2), var(--accent));color:#fff;border-radius:50%;min-width:18px;height:18px;display:inline-flex;align-items:center;justify-content:center;font-size:10px;box-shadow:0 2px 4px rgba(185,139,94,.4);">0</span></button>
+</div></div></header>
+
+<section class="reveal" style="max-width:780px;margin:16px auto 0;padding:0 16px;">
+<div id="bannerEl" style="position:relative;border-radius:24px;overflow:hidden;height:160px;background:linear-gradient(135deg, var(--accent2), var(--accent));display:flex;align-items:center;padding:0 26px;box-shadow:0 12px 30px -10px var(--accent-soft);">
+<div id="bannerText" style="color:#fff;position:relative;z-index:2;text-shadow:0 2px 10px rgba(0,0,0,0.1);"><div style="font-size:11px;opacity:.95;margin-bottom:6px;letter-spacing:1px;">ร้านค้าออนไลน์</div>
+<h1 id="heroName" style="font-size:26px;font-weight:700;margin:0 0 6px;">Bibimint</h1>
+<p id="heroTag" style="font-size:13px;opacity:.95;margin:0;">สินค้าคุณภาพ สดใหม่ทุกวัน</p></div>
+</div></section>
+
+<div id="promoBar" class="reveal" style="max-width:780px;margin:12px auto 0;padding:0 16px;display:none;">
+<div style="background:linear-gradient(to right, var(--accent2-soft), var(--bg));border:1px solid var(--border);border-radius:16px;padding:10px 14px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:8px;box-shadow:0 4px 12px rgba(0,0,0,0.02);"><i class="ri-megaphone-line" style="color:var(--accent);font-size:16px;"></i><span id="promoTextEl"></span></div>
+</div>
+
+<div class="reveal marquee" style="margin:14px 0;background:var(--accent-soft);padding:8px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+<div class="marquee-inner" id="marqueeEl" style="font-size:12px;font-weight:600;letter-spacing:0.5px;">ส่งฟรีเมื่อสั่งครบ 299 บาท · สะสมแต้มทุกยอดการสั่งซื้อ</div>
+</div>
+
+<section style="max-width:780px;margin:0 auto;padding:6px 16px 16px;">
+<div style="position:relative;margin-bottom:12px;"><i class="ri-search-line" style="position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:16px;"></i>
+<input id="searchInput" class="inp" placeholder="ค้นหาสินค้า..." style="padding-left:40px;border-radius:999px;box-shadow:inset 0 2px 4px rgba(0,0,0,0.01);"></div>
+<div id="chipsWrap" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+</section>
+
+<main style="max-width:780px;margin:0 auto;padding:0 16px 130px;">
+<div id="gridEl" style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px;"></div>
+<div id="emptyEl" style="display:none;text-align:center;padding:40px;color:var(--muted);"><i class="ri-shopping-bag-3-line" style="font-size:42px;display:block;margin-bottom:10px;opacity:0.5;"></i>ไม่พบสินค้า</div>
+</main>
+
+<div id="orderBar" style="display:none;position:sticky;bottom:0;z-index:25;background:rgba(255,255,255,.95);backdrop-filter:blur(12px);border-top:1px solid var(--border);padding:10px 16px;box-shadow:0 -10px 30px rgba(0,0,0,0.03);">
+<div style="max-width:780px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+<div><div style="font-size:11px;color:var(--muted);">รวมทั้งหมด</div><div id="barTotal" style="font-size:19px;font-weight:700;color:var(--accent);">฿0</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;">
+<button id="barCartBtn" class="btn-ghost btn-sm"><i class="ri-shopping-cart-2-line"></i> ตะกร้า</button>
+<button id="barCopyBtn" class="btn-ghost btn-sm"><i class="ri-file-copy-2-line"></i> คัดลอก</button>
+<button id="barContactBtn" class="btn-primary btn-sm"><i class="ri-chat-3-line"></i> สั่งซื้อ</button>
+</div></div></div>
+
+<div class="overlay" id="prodOverlay"></div>
+<div class="mbox" id="prodBox" style="padding:0;max-width:400px;overflow:hidden;">
+<button class="closeModal" data-close="prodBox" style="position:absolute;top:12px;right:12px;z-index:10;background:rgba(255,255,255,0.9);width:32px;height:32px;border-radius:50%;border:none;cursor:pointer;font-size:18px;color:var(--muted);box-shadow:0 4px 10px rgba(0,0,0,0.1);"><i class="ri-close-line"></i></button>
+<div style="width:100%;height:230px;display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom, var(--accent-soft), var(--bg));overflow:hidden;"><img id="prodImg" style="width:100%;height:100%;object-fit:cover;display:none;"><span id="prodImgText" style="font-size:64px;font-weight:700;color:var(--accent);opacity:0.7;"></span></div>
+<div id="prodThumbs" style="display:flex;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--border);"></div>
+<div style="padding:18px 20px 20px;">
+<div id="prodBadges" style="margin-bottom:10px;"></div>
+<h3 id="prodName" style="margin:0 0 6px;font-size:18px;"></h3>
+<div id="prodCat" style="font-size:12px;color:var(--muted);margin-bottom:10px;"></div>
+<div id="prodPrice" style="font-size:22px;font-weight:700;color:var(--accent);margin-bottom:14px;"></div>
+<div id="prodDetail" style="font-size:13px;line-height:1.7;background:linear-gradient(135deg, var(--accent-soft), var(--bg));border-radius:14px;padding:14px;margin-bottom:18px;white-space:pre-line;"></div>
+<div style="display:flex;gap:10px;"><button id="prodAddBtn" class="btn-primary" style="flex:1;padding:12px;"><i class="ri-add-line"></i> เพิ่มลงตะกร้า</button>
+<a id="prodDriveBtn" target="_blank" rel="noopener" class="btn-ghost" style="flex:1;display:none;padding:12px;"><i class="ri-image-line"></i> ดูตัวอย่าง</a></div>
+</div></div>
+
+<div class="overlay" id="cartOverlay"></div>
+<div class="mbox" id="cartBox" style="padding:20px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+<h3 style="margin:0;font-size:17px;"><i class="ri-shopping-cart-2-line" style="color:var(--accent);"></i> ตะกร้าสินค้า</h3>
+<button class="closeModal" data-close="cartBox" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted);padding:0;"><i class="ri-close-line"></i></button>
+</div>
+<div id="cartItemsEl" style="max-height:160px;overflow-y:auto;margin-bottom:14px;padding-right:5px;"></div>
+<div style="border-top:1px dashed var(--border);padding-top:14px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;"><span style="font-weight:600;font-size:14px;">รวมทั้งหมด</span><span id="cartTotalEl" style="font-size:20px;font-weight:700;color:var(--accent);">฿0</span></div>
+<div style="background:linear-gradient(to right, var(--accent-soft), var(--bg));border-radius:14px;padding:14px;margin-bottom:14px;border:1px solid var(--border);">
+<div style="font-weight:700;font-size:13px;margin-bottom:10px;">ข้อมูลสำหรับสั่งซื้อ <span style="color:#c0392b;">*</span></div>
+<label class="lbl">ชื่อสะสมแต้ม <span style="color:#c0392b;">จำเป็น</span></label>
+<input id="custName" class="inp" placeholder="กรอกชื่อ-นามสกุล เพื่อสะสมแต้ม" style="margin-bottom:10px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div><label class="lbl">ไอดีไลน์</label><input id="custLineId" class="inp" placeholder="@ชื่อ"></div>
+<div><label class="lbl">ลิงก์ไลน์</label><input id="custLineLink" class="inp" placeholder="https://line.me/..."></div>
+</div>
+<div style="font-size:11px;color:var(--muted);margin-top:6px;">กรอกอย่างน้อย 1 ช่องทางติดต่อ</div>
+</div>
+<div id="cartNotice" class="notice-box"><i class="ri-information-line" style="color:var(--accent);flex-shrink:0;font-size:14px;"></i><span>กรอกข้อมูลให้ครบก่อนกดคัดลอกนะคะ</span></div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;">
+<button id="copyBtn" class="btn-primary" style="flex:1;min-width:130px;padding:12px;"><i class="ri-file-copy-2-line"></i> คัดลอก</button>
+<button id="contactBuyBtn" class="btn-ghost" style="flex:1;min-width:130px;padding:12px;"><i class="ri-chat-3-line"></i> ช่องทาง</button>
+</div></div>
+
+<div class="overlay" id="contactOverlay"></div>
+<div class="mbox" id="contactBox" style="padding:24px;max-width:380px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+<h3 style="margin:0;font-size:17px;"><i class="ri-customer-service-2-line" style="color:var(--accent);"></i> ช่องทางติดต่อ</h3>
+<button class="closeModal" data-close="contactBox" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted);padding:0;"><i class="ri-close-line"></i></button>
+</div>
+<div style="text-align:center;color:var(--accent);font-weight:700;margin-bottom:14px;font-size:14px;background:var(--accent-soft);padding:10px;border-radius:12px;border:1px dashed var(--accent);">
+    กดช่องทางติดต่อ และ ส่งข้อความที่คัดลอกมาส่งให้ทางร้านได้เลยค่ะ
+</div>
+<div id="contactTextEl" style="background:linear-gradient(to bottom, var(--accent-soft), var(--bg));border-radius:14px;padding:14px;margin-bottom:16px;white-space:pre-line;font-size:13px;border:1px solid var(--border);"></div>
+<div id="channelBtns" style="display:flex;flex-direction:column;gap:10px;"></div>
+</div>
+
+<div class="overlay" id="infoOverlay"></div>
+<div class="mbox" id="infoBox" style="padding:24px;max-width:420px;">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+<h3 style="margin:0;font-size:17px;"><i class="ri-error-warning-line" style="color:var(--accent);"></i> รายละเอียด / ข้อมูลเพิ่มเติม</h3>
+<button class="closeModal" data-close="infoBox" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted);padding:0;"><i class="ri-close-line"></i></button>
+</div>
+<div id="infoTopicsEl"></div>
+</div>
+
+<div class="overlay" id="pwdOverlay"></div>
+<div class="mbox" id="pwdBox" style="padding:28px;max-width:340px;">
+<div style="text-align:center;margin-bottom:18px;">
+<div style="width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg, var(--accent-soft), var(--bg));border:1px solid var(--accent-soft);display:inline-flex;align-items:center;justify-content:center;color:var(--accent);font-size:24px;box-shadow:0 8px 20px rgba(185,139,94,.15);"><i class="ri-lock-2-line"></i></div>
+<h3 style="margin:12px 0 4px;font-size:16px;">เข้าสู่ระบบจัดการร้าน</h3>
+</div>
+<input type="password" id="pwdInput" class="inp" placeholder="รหัสผ่าน" style="text-align:center;letter-spacing:.4em;margin-bottom:12px;padding:12px;">
+<div id="pwdErr" style="color:#c0392b;font-size:13px;text-align:center;margin-bottom:12px;display:none;">รหัสผ่านไม่ถูกต้อง</div>
+<label style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:16px;cursor:pointer;justify-content:center;"><input type="checkbox" id="rememberPwd"> จดจำรหัสผ่านไว้ 60 วัน</label>
+<button id="pwdSubmit" class="btn-primary" style="width:100%;padding:12px;font-size:14px;">เข้าสู่ระบบ</button>
+</div>
+
+<div class="overlay" id="adminOverlay"></div>
+<div class="mbox" id="adminBox" style="padding:20px;width:min(720px,95%);">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+<h3 style="margin:0;font-size:17px;"><i class="ri-settings-3-line" style="color:var(--accent);"></i> ระบบหลังบ้าน <span id="syncStatus" style="font-size:10px;color:var(--muted);margin-left:8px;"><i class="ri-cloud-line"></i> ซิงค์แล้ว</span></h3>
+<div style="display:flex;gap:8px;">
+<button id="forgetPwd" class="btn-ghost btn-sm"><i class="ri-erase-line"></i> ล้างรหัส</button>
+<button id="adminLogout" class="btn-ghost btn-sm"><i class="ri-logout-circle-r-line"></i> ออก</button>
+<button class="closeModal" data-close="adminBox" style="border:none;background:none;font-size:22px;cursor:pointer;color:var(--muted);padding:0;"><i class="ri-close-line"></i></button>
+</div></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+<button class="tab-btn active" data-tab="tabStore"><i class="ri-store-2-line"></i> หน้าร้าน</button>
+<button class="tab-btn" data-tab="tabOrders"><i class="ri-file-list-3-line"></i> ออเดอร์</button>
+<button class="tab-btn" data-tab="tabRevenue"><i class="ri-wallet-3-line"></i> รายรับ/จ่าย</button>
+<button class="tab-btn" data-tab="tabSettings"><i class="ri-settings-4-line"></i> ตั้งค่า</button>
+</div>
+
+<div id="tabStore">
+<div style="background:linear-gradient(to bottom, var(--accent-soft), var(--bg));border:1px solid var(--border);border-radius:18px;padding:24px;text-align:center;">
+<i class="ri-eye-line" style="font-size:38px;color:var(--accent);display:block;margin-bottom:10px;"></i>
+<div style="font-weight:700;font-size:15px;margin-bottom:6px;">หน้าร้านค้า (ลูกค้าเห็น)</div>
+<div style="font-size:13px;color:var(--muted);margin-bottom:16px;">การจัดการทุกอย่างอยู่ที่แท็บ "ตั้งค่า"</div>
+<div style="font-size:13px;margin-bottom:4px;">ชื่อร้าน: <b id="pvName"></b></div>
+<div style="font-size:13px;margin-bottom:16px;">สินค้าเปิดขาย: <b id="pvCount"></b> ชิ้น</div>
+<button id="viewStoreBtn" class="btn-primary"><i class="ri-eye-line"></i> ดูหน้าร้านจริง</button>
+</div></div>
+
+<div id="tabOrders" style="display:none;">
+<div style="background:linear-gradient(to right, var(--accent-soft), var(--bg));border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">
+<div><div style="font-size:12px;color:var(--muted);">ลูกค้ากดเพิ่มลงตะกร้าทั้งหมด</div><div id="totalAdds" style="font-size:24px;font-weight:700;color:var(--accent);">0</div></div>
+<button id="clearStats" class="btn-ghost btn-sm"><i class="ri-delete-bin-line"></i> รีเซ็ต</button>
+</div>
+<div id="ordersList"></div>
+</div>
+
+<div id="tabRevenue" style="display:none;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
+<div style="background:linear-gradient(to bottom, var(--accent-soft), var(--bg));border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;"><div style="font-size:11px;color:var(--muted);">กำไร/คงเหลือสุทธิ</div><div id="revTotal" style="font-size:22px;font-weight:700;color:var(--accent);margin-top:4px;">฿0</div></div>
+<div style="background:linear-gradient(to bottom, var(--accent2-soft), var(--bg));border:1px solid var(--border);border-radius:16px;padding:14px;text-align:center;"><div style="font-size:11px;color:var(--muted);">ขายดีอันดับ 1</div><div id="bestSeller" style="font-size:14px;font-weight:700;margin-top:8px;">-</div></div>
+</div>
+
+<div class="sec-title"><i class="ri-wallet-3-line"></i> บันทึกรายรับ-รายจ่าย (แมนนวล)</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+    <input id="finNote" class="inp" placeholder="รายการ (เช่น ค่าส่ง, ค่ากล่อง)">
+    <input id="finAmt" type="number" class="inp" placeholder="จำนวนเงิน (บาท)">
+</div>
+<div style="display:flex;gap:10px;margin-bottom:14px;">
+    <button id="addIncomeBtn" class="btn-primary" style="flex:1;background:linear-gradient(135deg, #2ecc71, #27ae60);box-shadow:0 4px 12px rgba(46,204,113,0.3);"><i class="ri-add-line"></i> รับ</button>
+    <button id="addExpenseBtn" class="btn-primary" style="flex:1;background:linear-gradient(135deg, #e74c3c, #c0392b);box-shadow:0 4px 12px rgba(231,76,60,0.3);"><i class="ri-subtract-line"></i> จ่าย</button>
+</div>
+<div id="finList" style="max-height:140px;overflow-y:auto;margin-bottom:14px;border:1px solid var(--border);border-radius:12px;padding:6px 12px;background:#fafafa;"></div>
+
+<div class="sec-title"><i class="ri-bar-chart-2-line"></i> กราฟสรุปผลประกอบการ</div>
+<div id="finGraph" style="display:flex;align-items:flex-end;gap:15px;height:140px;padding-bottom:20px;border-bottom:1px solid var(--border);margin-bottom:14px;"></div>
+
+<div class="sec-title"><i class="ri-trophy-line"></i> อันดับสินค้าขายดี (จากออเดอร์)</div>
+<div id="bestList"></div>
+</div>
+
+<div id="tabSettings" style="display:none;">
+<div class="sec-title"><i class="ri-store-2-line"></i> ข้อมูลร้าน</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div><label class="lbl">ชื่อร้าน</label><input id="fName" class="inp"></div>
+<div><label class="lbl">สโลแกน</label><input id="fTag" class="inp"></div>
+<div style="grid-column:1/-1;"><label class="lbl">ข้อความโปรโมท</label><input id="fPromo" class="inp"></div>
+<div style="grid-column:1/-1;"><label class="lbl">ข้อความแถบเลื่อน</label><input id="fMarquee" class="inp"></div>
+<div><label class="lbl">รูปโปรไฟล์</label><input type="file" id="fAvatarFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fAvatarPrev" class="img-preview"><button type="button" id="clrAvatarBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div><label class="lbl">รูปแบนเนอร์</label><input type="file" id="fBannerFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="fBannerPrev" class="img-preview"><button type="button" id="clrBannerBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+</div>
+<button id="saveStore" class="btn-primary" style="margin-top:14px;width:100%;"><i class="ri-save-3-line"></i> บันทึกข้อมูลร้าน</button>
+
+<div class="sec-title"><i class="ri-folder-3-line"></i> หมวดหมู่</div>
+<div style="margin-bottom:10px;display:flex;gap:10px;"><input id="newCatName" class="inp" placeholder="ชื่อหมวดหมู่ใหม่"><button id="addCatBtn" class="btn-primary" style="white-space:nowrap;"><i class="ri-add-line"></i> เพิ่ม</button></div>
+<div id="catList"></div>
+
+<div class="sec-title"><i class="ri-shopping-bag-3-line"></i> สินค้า</div>
+<div id="adminProductList" style="max-height:160px;overflow-y:auto;margin-bottom:14px;border:1px solid var(--border);border-radius:14px;padding:4px 0;background:#fff;"></div>
+<h4 id="prodFormTitle" style="margin:0 0 10px;font-size:13px;color:var(--accent);font-weight:700;">เพิ่มสินค้าใหม่</h4>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+<div><label class="lbl">ชื่อสินค้า</label><input id="pName" class="inp"></div>
+<div><label class="lbl">หมวดหมู่</label><select id="pCatSel" class="inp"></select></div>
+<div><label class="lbl">ราคาโปร</label><input id="pPrice" type="number" class="inp" placeholder="บาท"></div>
+<div><label class="lbl">ราคาเต็ม</label><input id="pOld" type="number" class="inp" placeholder="ถ้ามี"></div>
+<div><label class="lbl">ป้ายกำกับ</label><input id="pBadge" class="inp" placeholder="แนะนำ/ใหม่"></div>
+<div><label class="lbl">จำนวน</label>
+<div style="display:flex;align-items:center;gap:8px;"><button type="button" id="qtyMinus" class="qty-btn"><i class="ri-subtract-line"></i></button><input id="pStock" type="number" class="inp" value="1" min="1" style="text-align:center;padding:10px;"><button type="button" id="qtyPlus" class="qty-btn"><i class="ri-add-line"></i></button></div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+<div><label class="lbl">รูปที่ 1</label><input type="file" id="pImgFile" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImgPrev" class="img-preview"><button type="button" id="clrImgBtn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+<div><label class="lbl">รูปที่ 2</label><input type="file" id="pImg2File" accept="image/*" class="inp" style="padding:6px;font-size:11px;"><div style="position:relative;"><img id="pImg2Prev" class="img-preview"><button type="button" id="clrImg2Btn" class="del-img-btn"><i class="ri-close-line"></i> ลบ</button></div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;">
+<div style="grid-column:1/-1;"><label class="lbl">ลิงก์ตัวอย่าง (ไดร์ฟ)</label><input id="pDrive" class="inp" placeholder="URL"></div>
+<div style="grid-column:1/-1;"><label class="lbl">สถานะแสดง</label>
+<div style="display:flex;align-items:center;gap:12px;padding-top:4px;"><div id="pToggle" class="toggle on"></div><span id="pToggleLabel" style="font-size:13px;font-weight:600;">เปิดแสดง</span></div></div>
+</div>
+<div style="margin-top:10px;"><label class="lbl">รายละเอียดสินค้า</label><textarea id="pDetail" class="inp" rows="3"></textarea></div>
+<div style="display:flex;gap:10px;margin-top:14px;">
+<button id="saveProduct" class="btn-primary" style="flex:1;"><i class="ri-add-circle-line"></i> เพิ่ม/อัปเดตสินค้า</button>
+<button id="cancelEdit" class="btn-ghost" style="display:none;">ยกเลิก</button>
+</div>
+
+<div class="sec-title"><i class="ri-customer-service-2-line"></i> ช่องทางติดต่อ</div>
+<label class="lbl">ข้อความแสดง</label>
+<textarea id="cText" class="inp" rows="2" style="resize:vertical;margin-bottom:12px;"></textarea>
+<div id="channelRows"></div>
+<button id="addChannel" class="btn-ghost" style="width:100%;margin-bottom:12px;"><i class="ri-add-line"></i> เพิ่มช่องทาง</button>
+<button id="saveContact" class="btn-primary" style="width:100%;margin-bottom:8px;"><i class="ri-save-3-line"></i> บันทึกช่องทาง</button>
+
+<div class="sec-title"><i class="ri-error-warning-line"></i> รายละเอียด (ปุ่ม !)</div>
+<div id="topicRows"></div>
+<button id="addTopic" class="btn-ghost" style="width:100%;margin-bottom:12px;"><i class="ri-add-line"></i> เพิ่มหัวข้อ</button>
+<button id="saveTopics" class="btn-primary" style="width:100%;margin-bottom:8px;"><i class="ri-save-3-line"></i> บันทึกรายละเอียด</button>
+
+<div class="sec-title"><i class="ri-palette-line"></i> ธีมสี</div>
+<label class="lbl">ธีมสำเร็จรูป</label>
+<div id="swatches" style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px;"></div>
+<label class="lbl">ปรับแต่งเอง</label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+<div class="color-row"><input type="color" id="colAccent"><input type="text" id="hexAccent" class="inp"><span style="font-size:11px;">หลัก</span></div>
+<div class="color-row"><input type="color" id="colAccent2"><input type="text" id="hexAccent2" class="inp"><span style="font-size:11px;">รอง</span></div>
+<div class="color-row"><input type="color" id="colBg"><input type="text" id="hexBg" class="inp"><span style="font-size:11px;">พื้น</span></div>
+<div class="color-row"><input type="color" id="colText"><input type="text" id="hexText" class="inp"><span style="font-size:11px;">อักษร</span></div>
+</div>
+<button id="saveTheme" class="btn-primary" style="margin-top:16px;width:100%;"><i class="ri-save-3-line"></i> บันทึกธีม</button>
+</div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+var API_URL = 'https://script.google.com/macros/s/AKfycbzDQsaE02glNs-gGmC0RP2L6L7Zd-pt8s4RRHRj-nmMHsf19v2aTTyne7NpPvR3W5HhVA/exec';
+var PWD='210848',AUTO='bm_auto_v1',LS={S:'bm_s6',P:'bm_p6',C:'bm_c6',ST:'bm_stats_v1',F:'bm_fin_v1'};
+var THEMES=[{n:'อุ่นน้ำตาล',a:'#b98b5e',a2:'#d4a76a',bg:'#fbf9f6',tx:'#423528'},{n:'มัทฉะ',a:'#7fa65f',a2:'#9fc07c',bg:'#f8fcf5',tx:'#2f3a28'},{n:'ชมพู',a:'#d998a8',a2:'#e8b4bc',bg:'#fdf8f9',tx:'#4a2f3a'},{n:'ฟ้า',a:'#7fa8c9',a2:'#a4c4d9',bg:'#f4f8fb',tx:'#2c3e4a'},{n:'เหลือง',a:'#d4b25a',a2:'#e0c470',bg:'#fcfbf7',tx:'#4a3f22'},{n:'ช็อกโกแลต',a:'#8b6a4f',a2:'#b59675',bg:'#faf8f5',tx:'#3a2e22'}];
+var DSET={name:'Bibimint',tag:'ร้านค้าออนไลน์',promo:'',marquee:'ส่งฟรีเมื่อสั่งครบ 299 บาท · สะสมแต้มทุกยอดการสั่งซื้อ',avatar:'',banner:'',contactText:'สั่งซื้อผ่านช่องทางด้านล่างได้เลยค่ะ',channels:[{label:'LINE',url:''}],infoTopics:[{id:1,title:'วิธีการสั่งซื้อ',detail:'1. เลือกสินค้า\n2. คัดลอกและส่งให้ร้าน'}],accent:'#b98b5e',accent2:'#d4a76a',bg:'#fbf9f6',text:'#423528'};
+var DPROD=[], DCATS=['ทั้งหมด'];
+var set,prod,cats,cart=[],stats={},fin=[],activeCat='ทั้งหมด',searchQ='',editingId=null,curProd=null,tmpA='',tmpB='',tmpI='',tmpI2='',pStatusActive=true;
+
+function $(id){return document.getElementById(id);}
+
+// โหลดข้อมูลแบบ Offline First (โหลดเครื่องก่อน ถ้ามีเน็ตค่อยดึงจากคลาวด์)
+function loadLocal(){
+    try{set=JSON.parse(localStorage.getItem(LS.S))||DSET;}catch(e){set=DSET;}
+    try{prod=JSON.parse(localStorage.getItem(LS.P))||DPROD;}catch(e){prod=DPROD;}
+    try{cats=JSON.parse(localStorage.getItem(LS.C))||DCATS;}catch(e){cats=DCATS.slice();}
+    try{stats=JSON.parse(localStorage.getItem(LS.ST))||{};}catch(e){stats={};}
+    try{fin=JSON.parse(localStorage.getItem(LS.F))||[];}catch(e){fin=[];}
+}
+
+async function loadAPI(){
+    try{
+        const res = await fetch(API_URL+"?action=load");
+        const json = await res.json();
+        if(json.status === 'success' && Object.keys(json.data).length > 0) {
+            set = json.data.set || set;
+            prod = json.data.prod || prod;
+            cats = json.data.cats || cats;
+            stats = json.data.stats || stats;
+            fin = json.data.fin || fin;
+            saveLocal(); // อัปเดตเครื่องให้ตรงคลาวด์
+            return true;
+        }
+    } catch(e) { console.error("API Load Error", e); }
+    return false;
+}
+
+// เซฟลงเครื่องทันที และซิงค์ขึ้น Google Sheets
+function saveLocal(){
+    try{localStorage.setItem(LS.S,JSON.stringify(set));localStorage.setItem(LS.P,JSON.stringify(prod));localStorage.setItem(LS.C,JSON.stringify(cats));localStorage.setItem(LS.ST,JSON.stringify(stats));localStorage.setItem(LS.F,JSON.stringify(fin));}catch(e){}
+}
+
+function save(){
+    saveLocal();
+    var s = $('syncStatus');
+    if(s){ s.innerHTML = '<i class="ri-loader-4-line ri-spin"></i> กำลังซิงค์...'; s.style.color = '#e67e22'; }
+    fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ action: 'save', data: { set:set, prod:prod, cats:cats, stats:stats, fin:fin } }),
+        redirect: 'follow'
+    }).then(r => r.json()).then(res => {
+        if(s){ s.innerHTML = '<i class="ri-cloud-line"></i> ซิงค์แล้ว'; s.style.color = 'var(--muted)'; }
+    }).catch(e => {
+        if(s){ s.innerHTML = '<i class="ri-error-warning-line"></i> รอซิงค์ใหม่'; s.style.color = '#c0392b'; }
+    });
+}
+
+function toast(m){var t=$('toast');t.textContent=m;t.style.top=(window.scrollY+60)+'px';t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove('show');},2500);}
+function applyTheme(){var r=document.documentElement.style;r.setProperty('--accent',set.accent);r.setProperty('--accent2',set.accent2);r.setProperty('--bg',set.bg);r.setProperty('--text',set.text);}
+function openBox(id){$(id).classList.add('show');$(id.replace('Box','Overlay')).classList.add('show');$(id).style.top=(window.scrollY+16)+'px';}
+function closeBox(id){$(id).classList.remove('show');$(id.replace('Box','Overlay')).classList.remove('show');}
+function readFile(f,cb){
+    // คำเตือนขนาดไฟล์
+    if(f.size > 200000) { toast("ขนาดรูปใหญ่เกินไป อาจทำให้ Google Sheets บันทึกไม่ผ่าน"); }
+    var r=new FileReader();r.onload=function(){cb(r.result);};r.readAsDataURL(f);
+}
+function allCats(){return ['ทั้งหมด'].concat(cats.filter(c=>c!=='ทั้งหมด'));}
+
+$('clrAvatarBtn').addEventListener('click', function(){ tmpA=''; $('fAvatarPrev').src=''; $('fAvatarPrev').classList.remove('show'); $('fAvatarFile').value=''; this.style.display='none'; });
+$('clrBannerBtn').addEventListener('click', function(){ tmpB=''; $('fBannerPrev').src=''; $('fBannerPrev').classList.remove('show'); $('fBannerFile').value=''; this.style.display='none'; });
+$('clrImgBtn').addEventListener('click', function(){ tmpI=''; $('pImgPrev').src=''; $('pImgPrev').classList.remove('show'); $('pImgFile').value=''; this.style.display='none'; });
+$('clrImg2Btn').addEventListener('click', function(){ tmpI2=''; $('pImg2Prev').src=''; $('pImg2Prev').classList.remove('show'); $('pImg2File').value=''; this.style.display='none'; });
+
+function render(){
+ applyTheme();
+ $('storeNameEl').textContent=set.name;$('taglineEl').textContent=set.tag;$('heroName').textContent=set.name;$('heroTag').textContent=set.tag;
+ $('marqueeEl').textContent=set.marquee+'  ·  '+set.marquee;document.title=set.name;
+ var av=$('avatarEl');if(set.avatar){av.innerHTML='<img src="'+set.avatar+'" style="width:100%;height:100%;object-fit:cover;">';}else{av.textContent=set.name.charAt(0).toUpperCase();}
+ var bn=$('bannerEl');if(set.banner){bn.style.background='url('+set.banner+') center/cover no-repeat';$('bannerText').style.display='none';}else{bn.style.background='linear-gradient(135deg, var(--accent2), var(--accent))';$('bannerText').style.display='block';}
+ if(set.promo&&set.promo.trim()){$('promoBar').style.display='block';$('promoTextEl').textContent=set.promo;}else{$('promoBar').style.display='none';}
+ $('contactTextEl').textContent=set.contactText;
+ $('channelBtns').innerHTML=set.channels.filter(function(c){return c.url&&c.url.trim();}).map(function(c){return '<a href="'+c.url+'" target="_blank" rel="noopener" class="btn-primary" style="width:100%;padding:12px;">เปิด '+c.label+'</a>';}).join('')||'<div style="text-align:center;color:var(--muted);font-size:12px;padding:8px;">ยังไม่ได้ตั้งค่าช่องทาง</div>';
+ renderInfoTopics();renderChips();renderGrid();updateCart();
+}
+function renderInfoTopics(){$('infoTopicsEl').innerHTML=set.infoTopics.length?set.infoTopics.map(function(t){return '<div class="topic-item"><div class="topic-head"><span><i class="ri-information-fill" style="color:var(--accent);margin-right:8px;font-size:15px;"></i>'+t.title+'</span><i class="ri-arrow-down-s-line"></i></div><div class="topic-body">'+t.detail+'</div></div>';}).join(''):'<div style="text-align:center;color:var(--muted);font-size:12px;padding:12px;">ยังไม่มีรายละเอียด</div>';}
+$('infoTopicsEl').addEventListener('click',function(e){var h=e.target.closest('.topic-head');if(h)h.parentElement.classList.toggle('open');});
+function renderChips(){$('chipsWrap').innerHTML=allCats().map(function(c){return '<button class="chip'+(c===activeCat?' active':'')+'" data-cat="'+c+'">'+c+'</button>';}).join('');}
+function renderGrid(){
+ var q=searchQ.toLowerCase();
+ var list=prod.filter(function(p){return p.status==='active'&&(activeCat==='ทั้งหมด'||p.cat===activeCat)&&(!q||p.name.toLowerCase().indexOf(q)>=0);});
+ $('emptyEl').style.display=list.length?'none':'block';
+ $('gridEl').innerHTML=list.map(function(p){
+  var ic=cart.find(function(c){return c.id===p.id;});
+  var qty=ic?'<div style="display:flex;align-items:center;gap:6px;"><button class="qty-btn" data-dec="'+p.id+'"><i class="ri-subtract-line"></i></button><span style="font-weight:700;min-width:18px;text-align:center;font-size:13px;">'+ic.qty+'</span><button class="qty-btn" data-inc="'+p.id+'" style="background:var(--accent);color:#fff;border-color:var(--accent);"><i class="ri-add-line"></i></button></div>':'<button data-add="'+p.id+'" style="background:linear-gradient(135deg, var(--accent2), var(--accent));color:#fff;border:none;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;padding:0;box-shadow:0 4px 10px rgba(185,139,94,.3);transition:all 0.2s;"><i class="ri-add-line"></i></button>';
+  var bl=(p.old&&p.old>p.price)?'<span class="badge-l">ลด '+Math.round((1-p.price/p.old)*100)+'%</span>':'';
+  var br=p.badge?'<span class="badge-r">'+p.badge+'</span>':'';
+  var old=p.old&&p.old>p.price?'<span class="old-price">฿'+p.old+'</span> ':'';
+  var img=p.img?'<img src="'+p.img+'" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\'">':'<span style="font-size:42px;font-weight:700;color:var(--accent);opacity:0.8;">'+p.name.charAt(0)+'</span>';
+  return '<div class="card-hover" data-prod="'+p.id+'" style="background:#fff;border-radius:18px;overflow:hidden;border:1px solid var(--border);position:relative;"><div style="position:relative;height:160px;overflow:hidden;display:flex;align-items:center;justify-content:center;background:linear-gradient(to bottom, var(--accent-soft), var(--bg));">'+bl+br+img+'</div><div style="padding:12px 14px 14px;"><div style="font-weight:700;font-size:13px;margin-bottom:2px;">'+p.name+'</div><div style="font-size:11px;color:var(--muted);margin-bottom:8px;">'+p.cat+'</div><div style="display:flex;align-items:center;justify-content:space-between;gap:4px;flex-wrap:wrap;"><div>'+old+'<span style="font-weight:700;color:var(--accent);font-size:16px;">฿'+p.price+'</span></div>'+qty+'</div></div></div>';
+ }).join('');
+}
+function add(id){var it=cart.find(function(c){return c.id===id;});if(it)it.qty++;else{var p=prod.find(function(x){return x.id===id;});if(p)cart.push({id:p.id,name:p.name,price:p.price,qty:1});}stats[id]=(stats[id]||0)+1;save();updateCart();}
+function dec(id){var it=cart.find(function(c){return c.id===id;});if(!it)return;it.qty--;if(it.qty<=0)cart=cart.filter(function(c){return c.id!==id;});updateCart();}
+function total(){return cart.reduce(function(s,c){return s+c.price*c.qty;},0);}
+function cnt(){return cart.reduce(function(s,c){return s+c.qty;},0);}
+
+function checkCartForm() {
+    var nm=$('custName').value.trim(),lid=$('custLineId').value.trim(),ll=$('custLineLink').value.trim();
+    var notice = $('cartNotice');
+    if (notice) {
+        if (nm && (lid || ll)) {
+            notice.innerHTML = '<i class="ri-check-double-line" style="color:#27ae60;flex-shrink:0;font-size:14px;"></i><span style="color:#27ae60;font-weight:700;">กดปุ่มคัดลอกและส่งให้ทางร้านได้เลยค่ะ</span>';
+            notice.style.background = '#eafaf1'; notice.style.borderColor = '#2ecc71'; notice.style.boxShadow = '0 4px 10px rgba(46,204,113,0.15)';
+        } else {
+            notice.innerHTML = '<i class="ri-information-line" style="color:var(--accent);flex-shrink:0;font-size:14px;"></i><span>กรอกข้อมูลให้ครบก่อนกดคัดลอกนะคะ</span>';
+            notice.style.background = 'var(--accent-soft)'; notice.style.borderColor = 'var(--accent)'; notice.style.boxShadow = 'none';
+        }
+    }
+}
+$('custName').addEventListener('input', checkCartForm);
+$('custLineId').addEventListener('input', checkCartForm);
+$('custLineLink').addEventListener('input', checkCartForm);
+
+function updateCart(){
+ $('cartCount').textContent=cnt();$('barTotal').textContent='฿'+total();$('cartTotalEl').textContent='฿'+total();
+ $('orderBar').style.display=cart.length?'block':'none';
+ $('cartItemsEl').innerHTML=cart.length?cart.map(function(c){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px dashed var(--border);gap:8px;flex-wrap:wrap;"><div style="flex:1;min-width:100px;"><div style="font-weight:600;font-size:13px;">'+c.name+'</div><div style="font-size:11px;color:var(--muted);margin-top:2px;">฿'+c.price+' x'+c.qty+'</div></div><div style="display:flex;align-items:center;gap:6px;"><button class="qty-btn" data-dec="'+c.id+'"><i class="ri-subtract-line"></i></button><span style="font-weight:700;min-width:18px;text-align:center;font-size:13px;">'+c.qty+'</span><button class="qty-btn" data-inc="'+c.id+'" style="background:var(--accent);color:#fff;border-color:var(--accent);"><i class="ri-add-line"></i></button></div><div style="font-weight:700;min-width:55px;text-align:right;font-size:14px;color:var(--accent);">฿'+(c.price*c.qty)+'</div><button data-del="'+c.id+'" style="border:none;background:none;color:#c0392b;cursor:pointer;font-size:16px;padding:4px;"><i class="ri-delete-bin-line"></i></button></div>';}).join(''):'<div style="text-align:center;padding:24px;color:var(--muted);font-size:13px;"><i class="ri-shopping-cart-2-line" style="font-size:36px;display:block;margin-bottom:8px;opacity:0.5;"></i>ตะกร้าว่างเปล่า</div>';
+ renderGrid(); checkCartForm();
+}
+function copyOrder(){
+ if(!cart.length){toast('ตะกร้าว่าง กรุณาเลือกสินค้าก่อน');return;}
+ var nm=$('custName').value.trim(),lid=$('custLineId').value.trim(),ll=$('custLineLink').value.trim();
+ if(!nm){$('custName').classList.add('err');toast('กรุณากรอกชื่อเพื่อสะสมแต้มก่อนนะคะ');setTimeout(function(){$('custName').classList.remove('err');},2000);return;}
+ if(!lid&&!ll){$('custLineId').classList.add('err');$('custLineLink').classList.add('err');toast('กรอกไอดีไลน์ หรือ ลิงก์ไลน์ อย่างใดอย่างหนึ่งก่อนนะคะ');setTimeout(function(){$('custLineId').classList.remove('err');$('custLineLink').classList.remove('err');},2000);return;}
+ var txt='=== ข้อมูลลูกค้า ===\nชื่อสะสมแต้ม: '+nm+'\nไอดีไลน์: '+(lid||'-')+'\nลิงก์ไลน์: '+(ll||'-')+'\n\n=== รายการสินค้า ===\n'+cart.map(function(c){return c.name+' x'+c.qty+' = ฿'+(c.price*c.qty);}).join('\n')+'\nรวมทั้งหมด: ฿'+total()+'\nขอบคุณค่ะ';
+ function done(){toast('คัดลอกเรียบร้อย ✓'); closeBox('cartBox'); openBox('contactBox');}
+ function fb(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done).catch(function(){fb(txt);done();});}else{fb(txt);done();}
+}
+function openProduct(id){
+ var p=prod.find(function(x){return x.id===id;});if(!p)return;curProd=p;
+ var imgs=[p.img,p.img2].filter(Boolean);
+ $('prodThumbs').innerHTML=imgs.map(function(src,i){return '<img class="thumb'+(i===0?' active':'')+'" data-ti="'+i+'" src="'+src+'">';}).join('');
+ setProdImg(0);
+ var b='';if(p.old&&p.old>p.price)b+='<span class="badge-l" style="position:static;display:inline-block;margin-right:8px;box-shadow:none;">ลด '+Math.round((1-p.price/p.old)*100)+'%</span>';if(p.badge)b+='<span class="badge-r" style="position:static;display:inline-block;box-shadow:none;">'+p.badge+'</span>';
+ $('prodBadges').innerHTML=b;$('prodName').textContent=p.name;$('prodCat').textContent=p.cat;
+ $('prodPrice').innerHTML=(p.old&&p.old>p.price?'<span class="old-price" style="font-size:14px;">฿'+p.old+'</span> ':'')+'฿'+p.price;
+ $('prodDetail').textContent=p.detail||'ไม่มีรายละเอียดเพิ่มเติม';
+ var db=$('prodDriveBtn');if(p.drive){db.style.display='inline-flex';db.href=p.drive;}else{db.style.display='none';}
+ openBox('prodBox');
+}
+function setProdImg(i){
+ var p=curProd;if(!p)return;var imgs=[p.img,p.img2].filter(Boolean);
+ var img=$('prodImg'),tx=$('prodImgText');
+ if(imgs[i]){img.src=imgs[i];img.style.display='block';tx.style.display='none';}else{img.style.display='none';tx.style.display='block';tx.textContent=p.name.charAt(0);}
+ document.querySelectorAll('#prodThumbs .thumb').forEach(function(t,idx){t.classList.toggle('active',idx===i);});
+}
+$('prodThumbs').addEventListener('click',function(e){var t=e.target.closest('.thumb');if(t)setProdImg(+t.dataset.ti);});
+$('prodAddBtn').addEventListener('click',function(){if(curProd){add(curProd.id);toast('เพิ่มลงตะกร้าแล้ว ✓');}});
+var cc=0,ct=null;
+function tryAdmin(){var u=parseInt(localStorage.getItem(AUTO)||'0',10);if(u&&u>Date.now()){openAdmin();}else{openBox('pwdBox');$('pwdInput').value='';$('pwdErr').style.display='none';}}
+$('brandZone').addEventListener('click',function(){cc++;clearTimeout(ct);ct=setTimeout(function(){cc=0;},1200);if(cc>=3){cc=0;tryAdmin();}});
+$('pwdSubmit').addEventListener('click',function(){if($('pwdInput').value===PWD){if($('rememberPwd').checked)localStorage.setItem(AUTO,Date.now()+60*86400*1000);closeBox('pwdBox');openAdmin();}else{$('pwdErr').style.display='block';}});
+$('pwdInput').addEventListener('keydown',function(e){if(e.key==='Enter')$('pwdSubmit').click();});
+$('forgetPwd').addEventListener('click',function(){localStorage.removeItem(AUTO);toast('ล้างรหัสที่จดไว้แล้ว');});
+function openAdmin(){
+ openBox('adminBox');
+ $('fName').value=set.name;$('fTag').value=set.tag;$('fPromo').value=set.promo||'';$('fMarquee').value=set.marquee;tmpA=set.avatar;tmpB=set.banner;
+ $('fAvatarPrev').src=set.avatar||'';$('fAvatarPrev').classList.toggle('show',!!set.avatar); $('clrAvatarBtn').style.display=set.avatar?'block':'none';
+ $('fBannerPrev').src=set.banner||'';$('fBannerPrev').classList.toggle('show',!!set.banner); $('clrBannerBtn').style.display=set.banner?'block':'none';
+ $('cText').value=set.contactText;renderChannelRows();renderTopicRows();syncColors();renderSwatches();renderCatList();renderAdminProd();fillCatSelect();resetProdForm();renderOrders();renderRevenue();
+ $('pvName').textContent=set.name;$('pvCount').textContent=prod.filter(function(p){return p.status==='active';}).length;
+}
+$('viewStoreBtn').addEventListener('click',function(){closeBox('adminBox');toast('นี่คือหน้าร้านจริง ค่ะ');});
+function renderOrders(){
+ var totalA=0;Object.keys(stats).forEach(function(k){totalA+=stats[k];});
+ $('totalAdds').textContent=totalA;
+ var arr=prod.map(function(p){return {p:p,n:stats[p.id]||0};}).filter(function(x){return x.n>0;}).sort(function(a,b){return b.n-a.n;});
+ $('ordersList').innerHTML=arr.length?arr.map(function(x){return '<div class="stat-row"><span><span class="rank">'+x.p.name.charAt(0)+'</span>'+x.p.name+'</span><span style="font-weight:700;color:var(--accent);font-size:14px;">'+x.n+' ครั้ง</span></div>';}).join(''):'<div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">ยังไม่มีลูกค้ากดสั่ง</div>';
+}
+$('clearStats').addEventListener('click',function(){if(confirm('รีเซ็ตข้อมูลออเดอร์?')){stats={};save();renderOrders();renderRevenue();toast('รีเซ็ตแล้ว');}});
+function renderRevenue(){
+ var rev=0,best=null,bestN=0;
+ prod.forEach(function(p){var n=stats[p.id]||0;rev+=n*p.price;if(n>bestN){bestN=n;best=p;}});
+ var mInc=0, mExp=0;
+ fin.forEach(function(f){ if(f.type==='inc') mInc+=f.amt; else mExp+=f.amt; });
+ var net = rev + mInc - mExp;
+
+ $('revTotal').textContent='฿'+net;$('bestSeller').textContent=best?best.name:'-';
+ $('finList').innerHTML = fin.length ? fin.map(function(f,i){
+     var color = f.type==='inc' ? '#27ae60' : '#c0392b';
+     var sign = f.type==='inc' ? '+' : '-';
+     return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px dashed var(--border);font-size:12px;"><span>'+f.note+'</span><div style="display:flex;gap:12px;align-items:center;"><span style="color:'+color+';font-weight:700;font-size:14px;">'+sign+'฿'+f.amt+'</span><button class="btn-ghost btn-sm" data-delfin="'+i+'" style="padding:4px;border:none;box-shadow:none;"><i class="ri-close-line" style="font-size:16px;"></i></button></div></div>';
+ }).join('') : '<div style="text-align:center;font-size:12px;color:var(--muted);padding:10px;">ยังไม่มีรายการบันทึกเพิ่มเติม</div>';
+
+ var maxVal = Math.max(rev, mInc, mExp, 1);
+ function bar(lbl, val, col) {
+     var h = Math.max((val/maxVal)*100, 5);
+     return '<div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;"><div style="font-size:11px;margin-bottom:6px;font-weight:700;color:'+col+';">฿'+val+'</div><div style="width:34px;height:'+h+'%;background:'+col+';border-radius:6px 6px 0 0;box-shadow:0 -4px 10px rgba(0,0,0,0.05); transition:height 0.4s ease;"></div><div style="font-size:10px;margin-top:8px;font-weight:600;color:var(--muted);">'+lbl+'</div></div>';
+ }
+ $('finGraph').innerHTML = bar('ขายสินค้า', rev, 'var(--accent)') + bar('รับอื่นๆ', mInc, '#2ecc71') + bar('รายจ่าย', mExp, '#e74c3c');
+
+ var arr=prod.map(function(p){return {p:p,n:stats[p.id]||0,rev:(stats[p.id]||0)*p.price};}).filter(function(x){return x.n>0;}).sort(function(a,b){return b.n-a.n;});
+ $('bestList').innerHTML=arr.length?arr.map(function(x,i){return '<div class="stat-row"><span><span class="rank">'+(i+1)+'</span>'+x.p.name+' <span style="color:var(--muted);font-size:11px;">('+x.n+' ชิ้น)</span></span><span style="font-weight:700;color:var(--accent);font-size:14px;">฿'+x.rev+'</span></div>';}).join(''):'<div style="text-align:center;color:var(--muted);font-size:12px;padding:20px;">ยังไม่มีข้อมูล</div>';
+}
+$('addIncomeBtn').addEventListener('click', function(){ addFin('inc'); });
+$('addExpenseBtn').addEventListener('click', function(){ addFin('exp'); });
+function addFin(type) {
+    var note = $('finNote').value.trim() || (type==='inc'?'รับเงิน':'จ่ายเงิน');
+    var amt = parseFloat($('finAmt').value) || 0;
+    if(amt<=0) { toast('กรุณากรอกจำนวนเงิน'); return; }
+    fin.push({type:type, note:note, amt:amt, id:Date.now()});
+    save(); $('finNote').value=''; $('finAmt').value=''; renderRevenue(); toast('บันทึกยอดแล้ว ✓');
+}
+$('finList').addEventListener('click', function(e){
+    var d = e.target.closest('[data-delfin]');
+    if(d){ if(confirm('ลบรายการนี้?')){ fin.splice(+d.dataset.delfin, 1); save(); renderRevenue(); } }
+});
+function renderChannelRows(){$('channelRows').innerHTML=set.channels.map(function(c,i){return '<div class="channel-row"><input class="inp ch-lbl" data-i="'+i+'" value="'+c.label+'" placeholder="ชื่อ"><input class="inp ch-url" data-i="'+i+'" value="'+(c.url||'')+'" placeholder="ลิงก์"><button class="btn-ghost btn-sm" data-delch="'+i+'" style="color:#c0392b;border-color:#f5c6cb;background:#fdf0f0;"><i class="ri-delete-bin-line"></i></button></div>';}).join('');}
+$('addChannel').addEventListener('click',function(){set.channels.push({label:'ช่องทางใหม่',url:''});renderChannelRows();});
+$('channelRows').addEventListener('click',function(e){var d=e.target.closest('[data-delch]');if(d){set.channels.splice(+d.dataset.delch,1);renderChannelRows();}});
+$('saveContact').addEventListener('click',function(){set.contactText=$('cText').value;document.querySelectorAll('.ch-lbl').forEach(function(el){set.channels[+el.dataset.i].label=el.value.trim()||'ช่องทาง';});document.querySelectorAll('.ch-url').forEach(function(el){set.channels[+el.dataset.i].url=el.value.trim();});save();render();toast('บันทึกช่องทางแล้ว ✓');});
+function renderTopicRows(){$('topicRows').innerHTML=set.infoTopics.map(function(t,i){return '<div style="border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;background:var(--bg);"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><label class="lbl" style="margin:0;font-size:12px;color:var(--accent);">หัวข้อ '+(i+1)+'</label><button class="btn-ghost btn-sm" data-deltopic="'+i+'" style="color:#c0392b;border:none;box-shadow:none;"><i class="ri-delete-bin-line" style="font-size:14px;"></i></button></div><input class="inp topic-title" data-i="'+i+'" value="'+t.title+'" placeholder="หัวข้อ" style="margin-bottom:8px;"><textarea class="inp topic-detail" data-i="'+i+'" rows="3" placeholder="รายละเอียด">'+t.detail+'</textarea></div>';}).join('');}
+$('addTopic').addEventListener('click',function(){set.infoTopics.push({id:Date.now(),title:'หัวข้อใหม่',detail:''});renderTopicRows();});
+$('topicRows').addEventListener('click',function(e){var d=e.target.closest('[data-deltopic]');if(d){set.infoTopics.splice(+d.dataset.deltopic,1);renderTopicRows();}});
+$('saveTopics').addEventListener('click',function(){document.querySelectorAll('.topic-title').forEach(function(el){set.infoTopics[+el.dataset.i].title=el.value.trim()||'หัวข้อ';});document.querySelectorAll('.topic-detail').forEach(function(el){set.infoTopics[+el.dataset.i].detail=el.value;});save();render();toast('บันทึกรายละเอียดแล้ว ✓');});
+function syncColors(){$('colAccent').value=set.accent;$('hexAccent').value=set.accent;$('colAccent2').value=set.accent2;$('hexAccent2').value=set.accent2;$('colBg').value=set.bg;$('hexBg').value=set.bg;$('colText').value=set.text;$('hexText').value=set.text;}
+function bindColor(v,ci,hi){var c=$(ci),h=$(hi);c.addEventListener('input',function(){set[v]=c.value;h.value=c.value;applyTheme();});h.addEventListener('change',function(){var x=h.value.trim();if(!/^#[0-9a-fA-F]{6}$/.test(x)){h.value=set[v];return;}set[v]=x;c.value=x;applyTheme();});}
+bindColor('accent','colAccent','hexAccent');bindColor('accent2','colAccent2','hexAccent2');bindColor('bg','colBg','hexBg');bindColor('text','colText','hexText');
+function renderSwatches(){$('swatches').innerHTML=THEMES.map(function(t,i){return '<span class="swatch'+(t.a===set.accent?' active':'')+'" data-th="'+i+'" style="background:linear-gradient(135deg, '+t.a2+', '+t.a+'); box-shadow:0 2px 8px '+t.a+'40;" title="'+t.n+'"></span>';}).join('');}
+$('swatches').addEventListener('click',function(e){var el=e.target.closest('[data-th]');if(!el)return;var t=THEMES[+el.dataset.th];set.accent=t.a;set.accent2=t.a2;set.bg=t.bg;set.text=t.tx;applyTheme();syncColors();renderSwatches();});
+$('saveTheme').addEventListener('click',function(){save();toast('บันทึกธีมแล้ว ✓');});
+$('fAvatarFile').addEventListener('change',function(e){if(e.target.files[0])readFile(e.target.files[0],function(d){tmpA=d;$('fAvatarPrev').src=d;$('fAvatarPrev').classList.add('show');$('clrAvatarBtn').style.display='block';});});
+$('fBannerFile').addEventListener('change',function(e){if(e.target.files[0])readFile(e.target.files[0],function(d){tmpB=d;$('fBannerPrev').src=d;$('fBannerPrev').classList.add('show');$('clrBannerBtn').style.display='block';});});
+$('saveStore').addEventListener('click',function(){set.name=$('fName').value.trim()||set.name;set.tag=$('fTag').value.trim();set.promo=$('fPromo').value.trim();set.marquee=$('fMarquee').value.trim();set.avatar=tmpA;set.banner=tmpB;save();render();toast('บันทึกข้อมูลร้านแล้ว ✓');});
+function renderCatList(){$('catList').innerHTML=cats.map(function(c,i){return '<div class="cat-row"><input class="inp cat-name" data-i="'+i+'" value="'+c+'"><button class="btn-ghost btn-sm" data-delcat="'+i+'" style="color:#c0392b;border-color:#f5c6cb;background:#fdf0f0;"><i class="ri-delete-bin-line"></i></button></div>';}).join('')||'<div style="font-size:12px;color:var(--muted);padding:10px;">ยังไม่มีหมวดหมู่</div>';}
+$('catList').addEventListener('input',function(e){var el=e.target.closest('.cat-name');if(el){cats[+el.dataset.i]=el.value.trim()||cats[+el.dataset.i];save();renderChips();fillCatSelect();}});
+$('addCatBtn').addEventListener('click',function(){var n=$('newCatName').value.trim();if(!n){toast('กรอกชื่อหมวดหมู่');return;}if(cats.indexOf(n)>=0){toast('มีหมวดหมู่นี้แล้ว');return;}cats.push(n);$('newCatName').value='';save();renderCatList();renderChips();fillCatSelect();toast('เพิ่มหมวดหมู่แล้ว ✓');});
+$('catList').addEventListener('click',function(e){var d=e.target.closest('[data-delcat]');if(d){if(confirm('ลบหมวดหมู่ "'+cats[+d.dataset.delcat]+'" ?')){cats.splice(+d.dataset.delcat,1);save();renderCatList();renderChips();fillCatSelect();}}});
+function fillCatSelect(){$('pCatSel').innerHTML='<option value="">-- เลือกหมวดหมู่ --</option>'+cats.map(function(c){return '<option value="'+c+'">'+c+'</option>';}).join('');}
+function renderAdminProd(){$('adminProductList').innerHTML=prod.length?prod.map(function(p){return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap;"><div style="flex:1;min-width:120px;"><span style="font-weight:600;font-size:13px;">'+p.name+'</span> <span style="font-size:11px;color:var(--muted);">['+p.cat+']</span><div style="font-size:13px;color:var(--accent);font-weight:700;margin-top:2px;">฿'+p.price+(p.old?' <span class="old-price" style="margin-left:4px;">฿'+p.old+'</span>':'')+(p.badge?' <span style="background:var(--accent-soft);padding:2px 8px;border-radius:999px;font-size:10px;margin-left:6px;">'+p.badge+'</span>':'')+'</div></div><div style="display:flex;align-items:center;gap:10px;"><div class="toggle'+(p.status==='active'?' on':'')+'" data-tog="'+p.id+'"></div><button data-edit="'+p.id+'" class="btn-ghost btn-sm" style="padding:6px 10px;"><i class="ri-pencil-line"></i></button><button data-delp="'+p.id+'" class="btn-ghost btn-sm" style="color:#c0392b;padding:6px 10px;border-color:#f5c6cb;background:#fdf0f0;"><i class="ri-delete-bin-line"></i></button></div></div>';}).join(''):'<div style="padding:20px;text-align:center;color:var(--muted);font-size:13px;">ยังไม่มีสินค้า</div>';}
+$('adminProductList').addEventListener('click',function(e){
+ var tg=e.target.closest('[data-tog]');if(tg){var p=prod.find(function(x){return x.id===+tg.dataset.tog;});if(p){p.status=p.status==='active'?'hidden':'active';save();renderAdminProd();renderGrid();toast(p.status==='active'?'เปิดแสดงแล้ว':'ซ่อนสินค้าแล้ว');}return;}
+ var ed=e.target.closest('[data-edit]'),dl=e.target.closest('[data-delp]');
+ if(ed){var p2=prod.find(function(x){return x.id===+ed.dataset.edit;});if(!p2)return;editingId=p2.id;tmpI=p2.img;tmpI2=p2.img2||'';$('pName').value=p2.name;$('pCatSel').value=p2.cat;$('pPrice').value=p2.price;$('pOld').value=p2.old||'';$('pBadge').value=p2.badge||'';$('pStock').value=p2.stock;$('pDrive').value=p2.drive||'';$('pDetail').value=p2.detail||'';$('pImgPrev').src=p2.img||'';$('pImgPrev').classList.toggle('show',!!p2.img);$('clrImgBtn').style.display=p2.img?'block':'none';$('pImg2Prev').src=p2.img2||'';$('pImg2Prev').classList.toggle('show',!!p2.img2);$('clrImg2Btn').style.display=p2.img2?'block':'none';setPToggle(p2.status==='active');$('prodFormTitle').textContent='แก้ไข: '+p2.name;$('saveProduct').innerHTML='<i class="ri-save-3-line"></i> บันทึกข้อมูล';$('cancelEdit').style.display='inline-flex';}
+ if(dl){if(confirm('ลบสินค้านี้?')){prod=prod.filter(function(x){return x.id!==+dl.dataset.delp;});cart=cart.filter(function(c){return c.id!==+dl.dataset.delp;});save();renderAdminProd();renderGrid();updateCart();toast('ลบสินค้าแล้ว');}}
+});
+function setPToggle(on){pStatusActive=on;$('pToggle').classList.toggle('on',on);$('pToggleLabel').textContent=on?'เปิดแสดง':'ซ่อน';}
+$('pToggle').addEventListener('click',function(){setPToggle(!pStatusActive);});
+function resetProdForm(){editingId=null;tmpI='';tmpI2='';$('pName').value='';$('pPrice').value='';$('pOld').value='';$('pBadge').value='';$('pStock').value='1';$('pDrive').value='';$('pDetail').value='';$('pCatSel').value='';$('pImgPrev').src='';$('pImgPrev').classList.remove('show');$('clrImgBtn').style.display='none';$('pImgFile').value='';$('pImg2Prev').src='';$('pImg2Prev').classList.remove('show');$('clrImg2Btn').style.display='none';$('pImg2File').value='';setPToggle(true);$('prodFormTitle').textContent='เพิ่มสินค้าใหม่';$('saveProduct').innerHTML='<i class="ri-add-circle-line"></i> เพิ่มสินค้า';$('cancelEdit').style.display='none';}
+$('qtyMinus').addEventListener('click',function(){var v=parseInt($('pStock').value)||1;if(v>1)$('pStock').value=v-1;});
+$('qtyPlus').addEventListener('click',function(){var v=parseInt($('pStock').value)||0;$('pStock').value=v+1;});
+$('pImgFile').addEventListener('change',function(e){if(e.target.files[0])readFile(e.target.files[0],function(d){tmpI=d;$('pImgPrev').src=d;$('pImgPrev').classList.add('show');$('clrImgBtn').style.display='block';});});
+$('pImg2File').addEventListener('change',function(e){if(e.target.files[0])readFile(e.target.files[0],function(d){tmpI2=d;$('pImg2Prev').src=d;$('pImg2Prev').classList.add('show');$('clrImg2Btn').style.display='block';});});
+$('saveProduct').addEventListener('click',function(){
+ var name=$('pName').value.trim(),cat=$('pCatSel').value,price=parseFloat($('pPrice').value)||0;
+ if(!name||!cat||!price){toast('กรุณากรอกชื่อ เลือกหมวดหมู่ และราคา');return;}
+ var obj={name:name,cat:cat,price:price,old:parseFloat($('pOld').value)||0,badge:$('pBadge').value.trim(),detail:$('pDetail').value.trim(),img:tmpI,img2:tmpI2,drive:$('pDrive').value.trim(),stock:parseInt($('pStock').value)||1,status:pStatusActive?'active':'hidden'};
+ if(editingId){var p=prod.find(function(x){return x.id===editingId;});if(p)Object.assign(p,obj);}else{obj.id=Date.now();prod.push(obj);}
+ save();renderAdminProd();renderGrid();resetProdForm();toast(editingId?'อัปเดตสินค้าแล้ว ✓':'เพิ่มสินค้าแล้ว ✓');
+});
+$('cancelEdit').addEventListener('click',resetProdForm);
+$('adminLogout').addEventListener('click',function(){closeBox('adminBox');});
+document.querySelectorAll('.tab-btn').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab-btn').forEach(function(x){x.classList.remove('active');});b.classList.add('active');['tabStore','tabOrders','tabRevenue','tabSettings'].forEach(function(id){$(id).style.display=(id===b.dataset.tab)?'block':'none';});if(b.dataset.tab==='tabOrders')renderOrders();if(b.dataset.tab==='tabRevenue')renderRevenue();});});
+$('searchInput').addEventListener('input',function(e){searchQ=e.target.value.trim();renderGrid();});
+document.addEventListener('click',function(e){
+ if(e.target.closest('a'))return;
+ var t=e.target.closest('[data-add]');if(t){add(+t.dataset.add);return;}
+ var i=e.target.closest('[data-inc]');if(i){add(+i.dataset.inc);return;}
+ var d=e.target.closest('[data-dec]');if(d){dec(+d.dataset.dec);return;}
+ var x=e.target.closest('[data-del]');if(x){cart=cart.filter(function(c){return c.id!==+x.dataset.del;});updateCart();return;}
+ var c=e.target.closest('[data-cat]');if(c){activeCat=c.dataset.cat;renderChips();renderGrid();return;}
+ var cl=e.target.closest('.closeModal');if(cl){closeBox(cl.dataset.close);return;}
+ if(e.target.classList&&e.target.classList.contains('overlay')){['cartBox','contactBox','infoBox','pwdBox','adminBox','prodBox'].forEach(function(id){if($(id).classList.contains('show'))closeBox(id);});return;}
+ var pd=e.target.closest('[data-prod]');if(pd){openProduct(+pd.dataset.prod);return;}
+});
+$('cartBtn').addEventListener('click',function(){openBox('cartBox');});
+$('barCartBtn').addEventListener('click',function(){openBox('cartBox');});
+$('contactBtn').addEventListener('click',function(){openBox('contactBox');});
+$('infoBtn').addEventListener('click',function(){openBox('infoBox');});
+$('copyBtn').addEventListener('click',copyOrder);
+$('barCopyBtn').addEventListener('click',copyOrder);
+$('contactBuyBtn').addEventListener('click',function(){openBox('contactBox');});
+$('barContactBtn').addEventListener('click',function(){openBox('contactBox');});
+
+// Splash animation and Initial Load Logic
+var p=0;
+var iv = setInterval(function(){
+    p+=10; if(p>80) p=80; // Hold at 80% until API is loaded
+    var sp=$('splashPercent');if(sp)sp.textContent=p+'%';
+    var sb=$('splashBar');if(sb)sb.style.width=p+'%';
+}, 90);
+
+loadLocal(); // โหลดจากเครื่องก่อน
+render(); // วาดหน้าเว็บรอเลย
+
+loadAPI().then(function(success){ // ดึงจาก Google Sheets
+    clearInterval(iv); // หยุดหลอดโหลด
+    $('splashPercent').textContent = '100%';
+    $('splashBar').style.width = '100%';
+    setTimeout(function(){
+        $('splash').style.opacity = '0';
+        setTimeout(function(){$('splash').style.display = 'none';},350);
+        $('mainWrap').style.opacity = '1';
+        if(success) render(); // อัปเดตหน้าเว็บใหม่ถ้าได้ข้อมูลจากคลาวด์
+    }, 400);
+});
+})();
+</script>
+</div>
+</html>
